@@ -1,17 +1,30 @@
-// 按两次 Shift 打开“随处搜索”对话框并输入 `show whitespaces`，
-// 然后按 Enter 键。现在，您可以在代码中看到空格字符。
+import java.util.*;
 public class Main {
     public static void main(String[] args) {
-        // 当文本光标位于高亮显示的文本处时按 Alt+Enter，
-        // 可查看 IntelliJ IDEA 对于如何修正该问题的建议。
-        System.out.printf("Hello and welcome!");
+        Set<User> users = new HashSet<>();
+        users.add(new User(1, "Alice", "New York"));
+        users.add(new User(2, "Bob", "Los Angeles"));
+        users.add(new User(3, "Charlie", "New York"));
+        users.add(new User(4, "David", "Los Angeles"));
 
-        // 按 Shift+F10 或点击装订区域中的绿色箭头按钮以运行脚本。
-        for (int i = 1; i <= 5; i++) {
+        Map<String, List<User>> cityUserMap = toMap(users);
 
-            // 按 Shift+F9 开始调试代码。我们已为您设置了一个断点，
-            // 但您始终可以通过按 Ctrl+F8 添加更多断点。
-            System.out.println("i = " + i);
+        // 打印城市和对应的用户
+        for (Map.Entry<String, List<User>> entry : cityUserMap.entrySet()) {
+            System.out.println("City: " + entry.getKey());
+            System.out.println("Users: " + entry.getValue());
+            System.out.println();
         }
+    }
+
+    private static Map<String, List<User>> toMap(Set<User> users) {
+        Map<String, List<User>> cityUserMap = new HashMap<>();
+        for (User user : users) {
+            String city = user.getCity();
+            List<User> userList = cityUserMap.getOrDefault(city, new ArrayList<>());
+            userList.add(user);
+            cityUserMap.put(city, userList);
+        }
+        return cityUserMap;
     }
 }
